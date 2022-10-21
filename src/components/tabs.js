@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Tab from './Tab';
-import { tabsClasses } from '@mui/material';
-import { render } from '@testing-library/react';
 
-//Component for managing tabs
+//Component for managing tabs: tracking active tabs, displaying active tab content, and displaying list of tabs
 class Tabs extends Component {
     static propTypes = {
       children: PropTypes.instanceOf(Array).isRequired,
@@ -24,8 +22,11 @@ class Tabs extends Component {
 
 
     render() {
+        //setup variables referenced in the return statement 
+        //Object destructuring
         const {
           onClickTabItem,
+          noProp, //Example that destructing a prop the object doesn't have is possible, but it has no content as the object never had the prop named
           props: {
             children,
           },
@@ -35,12 +36,14 @@ class Tabs extends Component {
         } = this;
     
         return (
+          // Render list of tabs
           <div className="tabs">
             <ol className="tab-list">
+              {/* for each child (tab), generate a 'label' object holding all child props */}
               {children.map((child) => {
                 const { label } = child.props;
-    
                 return (
+                  // For each tab, Render the component using provided arguments
                   <Tab
                     activeTab={activeTab}
                     key={label}
@@ -50,6 +53,7 @@ class Tabs extends Component {
                 );
               })}
             </ol>
+            {/* Render active tab content? */}
             <div className="tab-content">
               {children.map((child) => {
                 if (child.props.label !== activeTab) return undefined;
